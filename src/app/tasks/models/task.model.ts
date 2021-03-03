@@ -1,4 +1,4 @@
-export class TaskModel {
+export class TaskModel implements Task {
   constructor(
     public id: number = null,
     public action: string = '',
@@ -10,4 +10,13 @@ export class TaskModel {
     this.actHours = actHours || 0;
     this.done = done || false;
   }
+}
+
+export interface Task {
+  id?: number;
+  action?: string;
+  priority?: number;
+  estHours?: number;
+  actHours?: number;
+  done?: boolean;
 }
