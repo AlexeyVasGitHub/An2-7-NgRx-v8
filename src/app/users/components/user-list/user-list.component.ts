@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 // rxjs
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { UserModel } from './../../models/user.model';
-import { UserObservableService } from './../../services';
+import { UserModel } from '../../models/user.model';
+import { UserObservableService } from '../../services';
 
 @Component({
   templateUrl: './user-list.component.html',
@@ -21,7 +21,8 @@ export class UserListComponent implements OnInit {
     private userObservableService: UserObservableService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.users$ = this.userObservableService.getUsers();
@@ -29,10 +30,7 @@ export class UserListComponent implements OnInit {
     // listen editedUserID from UserFormComponent
     const observer = {
       next: (user: UserModel) => {
-        this.editedUser = { ...user };
-        console.log(
-          `Last time you edited user ${JSON.stringify(this.editedUser)}`
-        );
+        this.editedUser = {...user};
       },
       error: (err: any) => console.log(err)
     };

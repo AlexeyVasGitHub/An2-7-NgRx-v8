@@ -1,5 +1,5 @@
-import {createAction, props} from '@ngrx/store';
-import {Task} from '../../../tasks/models/task.model';
+import { createAction, props } from '@ngrx/store';
+import { Task } from '../../../tasks/models/task.model';
 
 export const getTasks = createAction('[Task List Page (App)] GET_TASKS');
 export const getTask = createAction(
@@ -22,3 +22,20 @@ export const deleteTask = createAction(
   '[Task List Page] DELETE_TASK',
   props<{ task: Task }>()
 );
+export const getTasksSuccess = createAction(
+  '[Get Tasks Effect] GET_TASKS_SUCCEESS',
+  props<{ tasks: Task[] }>()
+);
+export const getTasksError = createAction(
+  '[Get Tasks Effect] GET_TASKS_ERROR',
+  props<{ error: Error | string }>()
+);
+export const getTaskSuccess = createAction(
+  '[Get Task Effect] GET_TASK_SUCCESS',
+  props<{ task: Task }>()
+);
+export const getTaskError = createAction(
+  '[Get Task Effect] GET_TASK_ERROR',
+  props<{ error: Error | string }>()
+);
+

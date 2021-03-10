@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, NavigationExtras } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationExtras, Router } from '@angular/router';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { AuthService } from './../../../core';
+import { AuthService } from '../../../core';
 
 @Component({
   templateUrl: './login.component.html',
@@ -15,14 +15,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(public authService: AuthService, private router: Router) {}
+  constructor(public authService: AuthService, private router: Router) {
+  }
 
   ngOnInit() {
     this.setMessage();
   }
 
   ngOnDestroy() {
-    console.log('[takeUntil ngOnDestroy]');
     // this.unsubscribe.next();
     this.unsubscribe.complete();
   }

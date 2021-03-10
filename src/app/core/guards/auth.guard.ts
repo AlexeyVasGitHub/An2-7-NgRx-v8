@@ -8,8 +8,8 @@ import {
   Route,
   Router,
   RouterStateSnapshot,
-  UrlTree,
-  UrlSegment
+  UrlSegment,
+  UrlTree
 } from '@angular/router';
 
 import { Observable } from 'rxjs';
@@ -19,7 +19,8 @@ import { AuthService } from '../services/auth.service';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {
+  }
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -29,8 +30,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log('CanActivateGuard is called');
-    const { url } = state;
+    const {url} = state;
     return this.checkLogin(url);
   }
 
@@ -42,14 +42,12 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log('CanActivateChild Guard is called');
-    const { url } = state;
+    const {url} = state;
     return this.checkLogin(url);
   }
 
   canLoad(route: Route, segments: UrlSegment[]
-    ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log('CanLoad Guard is activated');
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const url = `/${route.path}`;
 
     return this.checkLogin(url) as boolean;
@@ -69,7 +67,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     // Set our navigation extras object
     // that contains our global query params and fragment
     const navigationExtras: NavigationExtras = {
-      queryParams: { sessionId },
+      queryParams: {sessionId},
       fragment: 'anchor'
     };
 

@@ -1,12 +1,6 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { TaskModel } from './../../models/task.model';
+import { TaskModel } from '../../models/task.model';
 
 @Component({
   selector: 'app-task',

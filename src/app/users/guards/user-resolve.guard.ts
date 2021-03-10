@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Router, Resolve, ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
 
 // rxjs
 import { Observable, of } from 'rxjs';
-import { delay, map, catchError, finalize, take } from 'rxjs/operators';
+import { catchError, delay, finalize, map, take } from 'rxjs/operators';
 
-import { UserObservableService } from './../services';
-import { UserModel } from './../models/user.model';
-import { SpinnerService } from './../../widgets';
+import { UserObservableService } from '../services';
+import { UserModel } from '../models/user.model';
+import { SpinnerService } from '../../widgets';
 
 @Injectable({
   providedIn: 'any'
@@ -17,11 +17,10 @@ export class UserResolveGuard implements Resolve<UserModel> {
     private userObservableService: UserObservableService,
     private router: Router,
     private spinner: SpinnerService
-  ) {}
+  ) {
+  }
 
   resolve(route: ActivatedRouteSnapshot): Observable<UserModel | null> {
-    console.log('UserResolve Guard is called');
-
     if (!route.paramMap.has('userID')) {
       return of(new UserModel(null, '', ''));
     }
@@ -34,7 +33,8 @@ export class UserResolveGuard implements Resolve<UserModel> {
       map((user: UserModel) => {
         if (user) {
           return user;
-        } else {
+        }
+        else {
           this.router.navigate(['/users']);
           return null;
         }

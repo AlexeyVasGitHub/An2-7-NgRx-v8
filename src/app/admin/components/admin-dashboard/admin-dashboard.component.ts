@@ -15,7 +15,8 @@ export class AdminDashboardComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     // Capture the session ID if available

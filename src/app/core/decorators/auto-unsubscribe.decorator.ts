@@ -12,8 +12,6 @@ export function AutoUnsubscribe(subName: string = 'sub') {
       if (original && (typeof original === 'function')) {
         original.apply(this, arguments);
       }
-
-      console.log(`Unsubscribe decorator is called. Subscription name is: ${subName}.`);
     };
   };
 }

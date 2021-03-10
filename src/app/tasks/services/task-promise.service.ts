@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { TaskModel } from './../models/task.model';
+import { TaskModel } from '../models/task.model';
 
 @Injectable({
   providedIn: 'any'
@@ -9,7 +9,8 @@ import { TaskModel } from './../models/task.model';
 export class TaskPromiseService {
   private tasksUrl = 'http://localhost:3000/tasks';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   getTasks(): Promise<TaskModel[]> {
     return this.http
@@ -33,7 +34,7 @@ export class TaskPromiseService {
     const url = `${this.tasksUrl}/${task.id}`;
     const body = JSON.stringify(task);
     const options = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
 
     return this.http
@@ -47,7 +48,7 @@ export class TaskPromiseService {
     const url = this.tasksUrl;
     const body = JSON.stringify(task);
     const options = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
 
     return this.http
@@ -71,7 +72,6 @@ export class TaskPromiseService {
   }
 
   private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error);
     return Promise.reject(error.message || error);
   }
 }

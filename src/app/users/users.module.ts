@@ -14,4 +14,5 @@ import { UserComponent } from './components';
   ],
   declarations: [UsersRoutingModule.components, UserComponent]
 })
-export class UsersModule {}
+export class UsersModule {
+}
