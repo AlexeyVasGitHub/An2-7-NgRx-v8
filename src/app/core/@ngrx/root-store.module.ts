@@ -22,7 +22,7 @@ import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
         strictActionImmutability: true, // default value is true
         // router state is not serializable
         // set false if you don't use CustomSerializer
-        strictStateSerializability: true, // default value is false
+        strictStateSerializability: false, // default value is false
         // router action is not serializable
         strictActionSerializability: false, // default value is false
         strictActionWithinNgZone: true, // default value is false
