@@ -4,12 +4,14 @@ import * as TasksActions from './tasks.actions';
 
 const reducer = createReducer(
   initialTasksState,
+
   on(TasksActions.getTasks, state => {
     return {
       ...state,
       loading: true
     };
   }),
+
   on(TasksActions.getTask, state => {
     return {
       ...state,
@@ -18,39 +20,30 @@ const reducer = createReducer(
     };
 
   }),
+
   on(TasksActions.createTask, state => {
     return {...state};
   }),
+
   on(TasksActions.updateTask, state => {
     return {...state};
   }),
-  on(TasksActions.completeTask, (state, {task}) => {
-    const id = task.id;
-    const data = state.data.map(t => {
-      if (t.id === id) {
-        return {...task, done: true};
-      }
 
-      return t;
-    });
-
-    return {
-      ...state,
-      data
-    };
-  }),
   on(TasksActions.deleteTask, state => {
     return {...state};
   }),
+
   on(TasksActions.getTasksSuccess, (state, {tasks}) => {
     const data = [...tasks];
     return {
       ...state,
       data,
       loading: false,
-      loaded: true
+      loaded: true,
+      selectedTask: null
     };
   }),
+
   on(TasksActions.getTasksError, TasksActions.getTaskError, (state, {error}) => {
     return {
       ...state,
@@ -59,15 +52,59 @@ const reducer = createReducer(
       error
     };
   }),
+
   on(TasksActions.getTaskSuccess, (state, {task}) => {
     const selectedTask = {...task};
     return {
       ...state,
       loading: false,
       loaded: true,
-      selectedTask
+      selectedTask,
     };
   }),
+
+  on(TasksActions.updateTaskSuccess, (state, {task}) => {
+    const data = [...state.data];
+
+    const index = data.findIndex(t => t.id === task.id);
+
+    data[index] = {...task};
+
+    return {
+      ...state,
+      data
+    };
+  }),
+
+  on(
+    TasksActions.createTaskError,
+    TasksActions.updateTaskError,
+    TasksActions.deleteTaskError,
+    (state, {error}) => {
+    return {
+      ...state,
+      error
+    };
+  }),
+
+  on(TasksActions.createTaskSuccess, (state, { task }) => {
+    const data = [...state.data, { ...task }];
+
+    return {
+      ...state,
+      data
+    };
+  }),
+
+  on(TasksActions.deleteTaskSuccess, (state, { task }) => {
+    const data = state.data.filter(t => t.id !== task.id);
+
+    return {
+      ...state,
+      data
+    };
+  }),
+
 );
 
 export function tasksReducer(state: TasksState | undefined, action: Action) {

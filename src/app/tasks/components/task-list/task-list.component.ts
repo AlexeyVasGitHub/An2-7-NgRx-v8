@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as TasksActions from './../../../core/@ngrx/tasks/tasks.actions';
 import { Task, TaskModel } from '../../models/task.model';
-import { AppState, TasksState } from '../../../core/@ngrx';
+import { AppState } from '../../../core/@ngrx';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { selectTasksData, selectTasksError } from '../../../core/@ngrx/tasks/tasks.selectors';
 
 @Component({
   templateUrl: './task-list.component.html',
@@ -12,7 +13,8 @@ import { Observable } from 'rxjs';
 })
 export class TaskListComponent implements OnInit {
   tasks: Promise<Array<TaskModel>>;
-  tasksState$: Observable<TasksState>;
+  tasks$: Observable<ReadonlyArray<Task>>;
+  tasksError$: Observable<Error | string>;
 
   constructor(
     private router: Router,
@@ -21,7 +23,10 @@ export class TaskListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tasksState$ = this.store.select('tasks');
+    this.tasks$ = this.store.select(selectTasksData);
+    // this.tasks$ = this.store.select(selectTasksDataPartial, { count: 2});
+    this.tasksError$ = this.store.select(selectTasksError);
+
     this.store.dispatch(TasksActions.getTasks());
   }
 
@@ -33,7 +38,7 @@ export class TaskListComponent implements OnInit {
   onCompleteTask(task: TaskModel): void {
     // task is not plain object
     // taskToComplete is a plain object
-    const taskToComplete: Task = {...task};
+    const taskToComplete: Task = {...task, done: true};
     this.store.dispatch(TasksActions.completeTask({task: taskToComplete}));
 
   }
@@ -44,5 +49,7 @@ export class TaskListComponent implements OnInit {
   }
 
   onDeleteTask(task: TaskModel) {
+    const taskToDelete: Task = {...task};
+    this.store.dispatch(TasksActions.deleteTask({task: taskToDelete}));
   }
 }

@@ -38,4 +38,29 @@ export const getTaskError = createAction(
   '[Get Task Effect] GET_TASK_ERROR',
   props<{ error: Error | string }>()
 );
+export const updateTaskSuccess = createAction(
+  '[Update Task Effect] UPDATE_TASK_SUCCESS',
+  props<{ task: Task }>()
+);
+export const updateTaskError = createAction(
+  '[Update Task Effect] UPDATE_TASK_ERROR',
+  props<{ error: Error | string }>()
+);
+export const createTaskSuccess = createAction(
+  '[Create Task Effect] CREATE_TASK_SUCCESS',
+  props<{ task: Task }>()
+);
+export const createTaskError = createAction(
+  '[Create Task Effect] CREATE_TASK_ERROR',
+  props<{ error: Error | string }>()
+);
+export const deleteTaskSuccess = createAction(
+  '[Delete Task Effect] DELETE_TASK_SUCCESS',
+  props<{ task: Task }>()
+);
+export const deleteTaskError = createAction(
+  '[Delete Task Effect] DELETE_TASK_ERROR',
+  props<{ error: Error | string }>()
+);
+
 

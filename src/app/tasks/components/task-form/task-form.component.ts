@@ -4,11 +4,12 @@ import * as TasksActions from './../../../core/@ngrx/tasks/tasks.actions';
 
 // rxjs
 import { takeUntil } from 'rxjs/operators';
-import { TaskModel } from '../../models/task.model';
+import { Task, TaskModel } from '../../models/task.model';
 import { TaskPromiseService } from '../../services';
 import { Subject } from 'rxjs';
 import { AppState, TasksState } from '../../../core/@ngrx';
 import { Store } from '@ngrx/store';
+import { selectSelectedTask, selectTasksState } from '../../../core/@ngrx/tasks/tasks.selectors';
 
 @Component({
   templateUrl: './task-form.component.html',
@@ -30,8 +31,12 @@ export class TaskFormComponent implements OnInit {
     this.task = new TaskModel();
 
     let observer: any = {
-      next: (tasksState: TasksState) => {
-        this.task = {...tasksState.selectedTask} as TaskModel;
+      next: (task: TaskModel) => {
+        if (task) {
+          this.task = {...task};
+        } else {
+          this.task = new TaskModel();
+        }
       },
       error(err) {
         console.log(err);
@@ -41,7 +46,7 @@ export class TaskFormComponent implements OnInit {
       }
     };
 
-    this.store.select('tasks')
+    this.store.select(selectSelectedTask)
       .pipe(
         takeUntil(this.componentDestroyed$)
       )
@@ -62,12 +67,13 @@ export class TaskFormComponent implements OnInit {
   }
 
   onSaveTask() {
-    const task = {...this.task} as TaskModel;
+    const task = {...this.task} as Task;
 
-    const method = task.id ? 'updateTask' : 'createTask';
-    this.taskPromiseService[method](task)
-      .then(() => this.onGoBack())
-      .catch(err => console.log(err));
+    if (task.id) {
+      this.store.dispatch(TasksActions.updateTask({ task }));
+    } else {
+      this.store.dispatch(TasksActions.createTask({ task }));
+    }
   }
 
   onGoBack(): void {
